@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Ponte Segura Recife</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #00008B; /* FUNDO AZUL */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      width: 320px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    h1 {
+      margin-bottom: 15px;
+    }
+
+    .btn {
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 15px;
+      margin-top: 10px;
+      width: 100%;
+    }
+
+    .btn-alerta {
+      background-color: red;
+      color: white;
+    }
+
+    .btn-alerta:hover {
+      background-color: darkred;
+    }
+
+    .btn-secundario {
+      background-color: #e0e0e0;
+    }
+
+    .btn-secundario:hover {
+      background-color: #cfcfcf;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .info {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .camera-list button {
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Tela Home -->
+  <div class="container" id="home">
+    <h1>Ponte Segura Recife</h1>
+
+    <button class="btn btn-alerta" onclick="enviarAlerta()">🚨 Enviar Alerta</button>
+
+    <!-- Localização -->
+    <button class="btn btn-secundario" onclick="ativarLocalizacao()">📍 Ativar Localização</button>
+    <div class="info" id="statusLocalizacao"></div>
+
+    <!-- Câmeras -->
+    <button class="btn btn-secundario" onclick="mostrarCameras()">📷 Acessar Câmeras</button>
+    <div class="camera-list hidden" id="cameras">
+      <button class="btn btn-secundario" onclick="selecionarCamera(1)">Câmera 1</button>
+      <button class="btn btn-secundario" onclick="selecionarCamera(2)">Câmera 2</button>
+      <button class="btn btn-secundario" onclick="selecionarCamera(3)">Câmera 3</button>
+      <button class="btn btn-secundario" onclick="selecionarCamera(4)">Câmera 4</button>
+    </div>
+    <div class="info" id="cameraSelecionada"></div>
+
+    <!-- Eventos -->
+    <button class="btn btn-secundario" onclick="verEventos()">⚠️ Ver Eventos Próximos</button>
+    <div class="info" id="eventos"></div>
+
+  </div>
+
+  <!-- Tela Confirmação -->
+  <div class="container hidden" id="confirmacao">
+    <h1>Alerta Enviado!</h1>
+    <p>As autoridades foram notificadas.</p>
+    <button class="btn btn-secundario" onclick="voltar()">Voltar</button>
+  </div>
+
+  <script>
+    function enviarAlerta() {
+      document.getElementById("home").classList.add("hidden");
+      document.getElementById("confirmacao").classList.remove("hidden");
+    }
+
+    function voltar() {
+      document.getElementById("confirmacao").classList.add("hidden");
+      document.getElementById("home").classList.remove("hidden");
+    }
+
+    function ativarLocalizacao() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(() => {
+          document.getElementById("statusLocalizacao").innerText =
+            "✅ Localização ativada!";
+        });
+      } else {
+        document.getElementById("statusLocalizacao").innerText =
+          "❌ Geolocalização não suportada.";
+      }
+    }
+
+    function mostrarCameras() {
+      document.getElementById("cameras").classList.toggle("hidden");
+    }
+
+    function selecionarCamera(num) {
+      document.getElementById("cameraSelecionada").innerText =
+        "📷 Visualizando Câmera " + num;
+    }
+
+    function verEventos() {
+      document.getElementById("eventos").innerHTML =
+        "⚠️ Evento: Trânsito intenso próximo<br>⚠️ Evento: Área com baixa iluminação";
+    }
+  </script>
+
+</body>
+</html>
